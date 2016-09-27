@@ -1,0 +1,21 @@
+{
+  "name": "buf2png",
+  "version": "1.0.0",
+  "description": "any file convert to png file and conert png to any file",
+  "main": "libs/index.js",
+  "dependencies": {
+    "pngjs": "^3.0.0",
+    "install": "^0.8.1",
+    "npm": "^3.10.8"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "png",
+    "buffer"
+  ],
+  "author": "gaoletian",
+  "license": "ISC"
+}
