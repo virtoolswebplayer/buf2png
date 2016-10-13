@@ -2,7 +2,7 @@ const fs = require('fs')
 const PNG = require('pngjs').PNG
 const _ = require('lodash')
 
-let pngName = './sample.png'
+let pngName = './sample02.png'
 
 let ocrDataBase = {
   '110000111110011001110011110011001111001100111000110011011011001011101100011110110011110011001111001110011001111100001111': '0',
@@ -47,7 +47,7 @@ fs.createReadStream(pngName)
     let ocrInfo = {
       fontHeight: 12,
       fontWidth: 10,
-      offsetTop: 27 + 22 * 47,
+      offsetTop: 27 + 22 * 1,
       offsetLeft: 12,
     }
     let scanInfo = {
@@ -121,7 +121,6 @@ fs.createReadStream(pngName)
     })
 
     console.log(ocrResult.join(''))
-    console.log('abcd'[2])
     console.log(ocrResult.length)
 
 
