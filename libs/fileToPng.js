@@ -1,15 +1,34 @@
 const fs = require('fs')
 const PNG = require('pngjs').PNG;
 
-let res = fs.readFileSync('./991k.zip')
 
-let hex = res.toString('hex').toUpperCase()
+module.exports = function (buf, opt) {
+    let res = buf
+    let hex = res.toString('hex').toUpperCase()
 
-// save to file
-// let hexToBuf = Buffer.from(hex,'hex')
-// fs.writeFileSync('./111copy.zip',hexToBuf)
+    let option = opt || {width: 1024, height: 1024}
 
-let hexArray = hex.split('')
+    let hexArray = hex.split('')
+    const imgWidth = opt.width
+    const imgHeight = opt.height
+
+    /**
+     * 1个字符 = 4 像素
+     * 262144 个字符 = 1024*1024 像素
+     * 204800 个字符 = 1024*800 像素
+     * 160000 个字符 = 800*800 像素
+     */
+
+    let mutilArray = splitArray(hexArray, (imgWidth * imgHeight * 0.25))
+
+    mutilArray.forEach((item, index) => {
+        let buf = initBuf(imgWidth, imgHeight)
+        fillBuf(item, buf)
+
+        savePng(buf, `test${index}`, imgWidth, imgHeight)
+    })
+
+}
 
 
 // 将一维数组分割为二维数组
@@ -47,32 +66,16 @@ function fillBuf(srcArray, dest) {
     const HexEnCode = require('./hexEncode')
     let ofs = 0;
     srcArray.forEach((c, i) => {
-        let pixels = HexEnCode[`key${c.toString()}`]
+        let pixels = HexEnCode[`${c.toString()}`]
         pixels.forEach(val => {
             dest[ofs++] = 0xff * val;
             dest[ofs++] = 0xff * val;
             dest[ofs++] = 0xff * val;
+            // dest[ofs++] = 0xff * val;
         })
     })
 }
 
-const imgWidth = 1024
-const imgHeight = 800
-
-/**
- * 1个字符 = 4 像素
- * 204800 个字符 = 1024*800 像素
- * 160000 个字符 = 800*800 像素
- */
-
-let mutilArray = splitArray(hexArray, 204800)
-
-mutilArray.forEach((item, index) => {
-    let buf = initBuf()
-    fillBuf(item, buf)
-
-    savePng(buf, `test${index}`)
-})
 
 /**
  * 保存png
